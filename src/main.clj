@@ -92,6 +92,7 @@
                                   raw-state (get-state state)          ;; filter costs, etc
                                   robot     (get-robot state)
                                   ]
+                              (println robot)
                               (when debug (println 'selecting next '=> raw-state))
                               (cond
                                 (goal? raw-state)                      ;; goal found
@@ -110,8 +111,6 @@
                                                          (remove #(member? visited (get-state %))
                                                                  moves))
                                         ]
-                                    (println new-states)
-                                    (println moves)
                                     (when debug
                                       (println              ;'exploring state '=> raw-state
                                         'path      next
