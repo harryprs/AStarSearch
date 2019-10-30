@@ -1,5 +1,6 @@
 (ns main)
 
+(use 'clojure.pprint)
 
 ;AF AG AH AI AJ
 ;BF BG BH BI BJ
@@ -300,6 +301,13 @@
         {:state "EJ", :cost (+ c (get-cost_graph n "EJ")), :robot g }
         )
       )))
+
+
+(defn testrun []
+  (print-table (A*search {:state "A", :cost 0, :robot "H"} a*lmg_branch))
+  (print-table (A*search {:state "A", :cost 0, :robot "G"} a*lmg_circle))
+  (print-table (A*search {:state "AF", :cost 0, :robot "EI"} a*lmg_graph))
+  )
 
 
 ;Unused code designed for D*
