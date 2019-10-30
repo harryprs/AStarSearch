@@ -1,43 +1,45 @@
 (ns main)
 
+
 ;AF AG AH AI AJ
 ;BF BG BH BI BJ
 ;CF CG CH CI CJ
 ;DF DG DH DI DJ
 ;EF EG EH EI EJ
-;(time (A*search {:state "AF", :cost 0} "EI" a*lmg))
+;(A*search {:state "AF", :cost 0, :robot "EI"} a*lmg_graph)
 ;  "Map of node => adjacent node => cost. This could
 ;   be replaced with any cost function of the shape
 ;   (node, node') => cost."
 ;   Node of 10000 cost = wall
 (def graph {"AF" {"BF" 10000, "AG" 5},
-                  "AG" {"AF" 4, "BG" 7, "AH" 2},
-                  "AH" {"AG" 3, "BH" 1, "AI" 9},
-                  "AI" {"AH" 6, "BI" 10000, "AJ" 10},
-                  "AJ" {"AI" 3, "BJ" 7},
-                  "BF" {"AF" 2, "BG" 5, "CF" 12},
-                  "BG" {"BF" 10000, "BH" 3, "AG" 5, "CG" 9},
-                  "BH" {"BG" 1, "BI" 10000, "AH" 11, "CH"5},
-                  "BI" {"BH" 3, "BJ" 6, "AI" 4, "CI" 9},
-                  "BJ" {"BI" 10000, "AJ" 2, "CJ" 5},
-                  "CF" {"CG" 7, "BF" 10000, "DF" 8},
-                  "CG" {"CF" 2, "CH" 9, "BG" 6, "DG" 4},
-                  "CH" {"CG" 12, "CI" 10000, "BH" 2, "DH" 10000},
-                  "CI" {"CH" 8, "CJ" 4, "BI" 10, "DI" 7},
-                  "CJ" {"CI" 10000, "BJ" 6, "DJ" 3},
-                  "DF" {"DG" 7, "CF" 11, "EF" 6},
-                  "DG" {"DF" 7, "DH" 10000, "CG" 7, "EG" 3},
-                  "DH" {"DG" 4, "DI" 10000, "CH" 8, "EH" 9},
-                  "DI" {"DH" 10000, "DJ" 5, "CI" 7, "EI" 3},
-                  "DJ" {"DI" 10000, "CJ" 4, "EJ" 3},
-                  "EF" {"EG" 1, "DF" 5},
-                  "EG" {"EF" 8, "EH" 3, "DG" 2},
-                  "EH" {"EG" 9, "EI" 4, "DH" 10000},
-                  "EI" {"EH" 12, "EJ" 10, "DI" 10000},
-                  "EJ" {"EI" 8, "DJ" 9}
-                  })
+            "AG" {"AF" 4, "BG" 7, "AH" 2},
+            "AH" {"AG" 3, "BH" 1, "AI" 9},
+            "AI" {"AH" 6, "BI" 10000, "AJ" 10},
+            "AJ" {"AI" 3, "BJ" 7},
+            "BF" {"AF" 2, "BG" 5, "CF" 12},
+            "BG" {"BF" 10000, "BH" 3, "AG" 5, "CG" 9},
+            "BH" {"BG" 1, "BI" 10000, "AH" 11, "CH"5},
+            "BI" {"BH" 3, "BJ" 6, "AI" 4, "CI" 9},
+            "BJ" {"BI" 10000, "AJ" 2, "CJ" 5},
+            "CF" {"CG" 7, "BF" 10000, "DF" 8},
+            "CG" {"CF" 2, "CH" 9, "BG" 6, "DG" 4},
+            "CH" {"CG" 12, "CI" 10000, "BH" 2, "DH" 10000},
+            "CI" {"CH" 8, "CJ" 4, "BI" 10, "DI" 7},
+            "CJ" {"CI" 10000, "BJ" 6, "DJ" 3},
+            "DF" {"DG" 7, "CF" 11, "EF" 6},
+            "DG" {"DF" 7, "DH" 10000, "CG" 7, "EG" 3},
+            "DH" {"DG" 4, "DI" 10000, "CH" 8, "EH" 9},
+            "DI" {"DH" 10000, "DJ" 5, "CI" 7, "EI" 3},
+            "DJ" {"DI" 10000, "CJ" 4, "EJ" 3},
+            "EF" {"EG" 1, "DF" 5},
+            "EG" {"EF" 8, "EH" 3, "DG" 2},
+            "EH" {"EG" 9, "EI" 4, "DH" 10000},
+            "EI" {"EH" 12, "EJ" 10, "DI" 10000},
+            "EJ" {"EI" 8, "DJ" 9}
+            })
 
-;(time (A*search {:state "A", :cost 0} "F" a*lmg))
+;(A*search {:state "A", :cost 0, :robot "G"} a*lmg_circle)
+;(time (A*search {:state "A", :cost 0, :robot "G"} a*lmg_circle))
 (def circle {"A" {"B" 3, "D" 4}
              "B" {"A" 6, "C" 3}
              "C" {"B" 7, "H" 8}
@@ -47,26 +49,26 @@
              "G" {"F" 3, "H" 5}
              "H" {"C" 4, "G" 4}})
 
-
+;(A*search {:state "A", :cost 0, :robot "H"} a*lmg_branch)
 (def branch {"A" {"B" 2, "E" 10}
-                   "B" {"A" 2, "C" 3, "D" 4, "F" 6}
-                   "C" {"B" 3, "D" 2}
-                   "D" {"B" 4, "C" 3, "E" 10}
-                   "E" {"A" 10, "D" 10}
-                   "F" {"B" 3, "G" 5}
-                   "G" {"H" 3, "F" 2}
-                   "H" {"G", 7}
-                   })
+             "B" {"A" 2, "C" 3, "D" 4, "F" 6}
+             "C" {"B" 3, "D" 2}
+             "D" {"B" 4, "C" 3, "E" 10}
+             "E" {"A" 10, "D" 10}
+             "F" {"B" 3, "G" 5}
+             "G" {"H" 3, "F" 2}
+             "H" {"G", 7}
+             })
 
 
 ;target moves to highest cost connected node < 10000
 (defn movetarget [g]
   (key (apply max-key val (filter #(< (second %) 10000) (graph g))))
-    )
+  )
 
 ;(A*search {:state "A", :cost 0} "D" a*lmg)
 (defn A*search
-  [start g LMG & {:keys [get-state get-cost get-robot selector debug]
+  [start LMG & {:keys [get-state get-cost get-robot selector debug]
                   :or {get-state :state
                        get-cost :cost
                        get-robot :robot
@@ -80,19 +82,17 @@
 
     (loop [queued  `( (~start) )
            visited nil
-           g g                                      ;NEW CODE: GOAL PARAM
+           g (get-robot (first (selector queued)))
            ]
       (let [goal (fn [x] (= x g))
-            goal? (if (fn? goal)                            ;NEW CODE: anonymous function, goal param to find
+            goal? (if (fn? goal)
                     #(when (goal %) %)
                     #(when (= % goal) %))]
         (if (empty? queued) nil                      ;; fail if (null queued)
                             (let [next      (selector queued)          ;; select next node
                                   state     (first next)               ;; filter out path
                                   raw-state (get-state state)          ;; filter costs, etc
-                                  robot     (get-robot state)
                                   ]
-                              (println robot)
                               (when debug (println 'selecting next '=> raw-state))
                               (cond
                                 (goal? raw-state)                      ;; goal found
@@ -103,7 +103,8 @@
                                   (recur (remove #(= % next) queued)
                                          visited
                                          g)
-                                  (let [g           (movetarget g)
+                                  (let [
+                                        ;g           (movetarget g)     ;;goal moves
                                         queued      (remove #(= % next) queued)
                                         moves       (LMG state g)
                                         new-visited (cons raw-state visited)
@@ -121,7 +122,7 @@
                                       (concat queued new-states)
                                       new-visited
                                       g
-                                      )                       ;NEW CODE: NEW GOAL PARAM
+                                      )
                                     ))
                                 ))
                             )))))
@@ -181,31 +182,31 @@
         c (:cost state)
         ]
     (list
-      (if (contains? (branch n) "A")
+      (if (contains? (circle n) "A")
         {:state "A", :cost (+ c (get-cost_circle n "A")), :robot g }
         )
-      (if (contains? (branch n) "B")
+      (if (contains? (circle n) "B")
         {:state "B", :cost (+ c (get-cost_circle n "B")), :robot g }
         )
-      (if (contains? (branch n) "C")
+      (if (contains? (circle n) "C")
         {:state "C", :cost (+ c (get-cost_circle n "C")), :robot g }
         )
-      (if (contains? (branch n) "D")
+      (if (contains? (circle n) "D")
         {:state "D", :cost (+ c (get-cost_circle n "D")), :robot g }
         )
-      (if (contains? (branch n) "E")
+      (if (contains? (circle n) "E")
         {:state "E", :cost (+ c (get-cost_circle n "E")), :robot g }
         )
-      (if (contains? (branch n) "F")
+      (if (contains? (circle n) "F")
         {:state "F", :cost (+ c (get-cost_circle n "F")), :robot g }
         )
-      (if (contains? (branch n) "G")
+      (if (contains? (circle n) "G")
         {:state "G", :cost (+ c (get-cost_circle n "G")), :robot g }
         )
-      (if (contains? (branch n) "H")
+      (if (contains? (circle n) "H")
         {:state "H", :cost (+ c (get-cost_circle n "H")), :robot g }
         )
-      (if (contains? (branch n) "I")
+      (if (contains? (circle n) "I")
         {:state "I", :cost (+ c (get-cost_circle n "I")), :robot g }
         )
       )))
@@ -315,10 +316,10 @@
 ;                   }))
 
 ;node x, node y,
-(defn modify-cost [x, y, cval]
-  ; update arc cost with cval
-  ;(get (swap! graph (assoc-in graph [x y] cval)) y)
-  (swap! graph #(assoc-in % [x y] cval))
-  (get-cost_graph x y)
-  ; if
-  )
+;(defn modify-cost [x, y, cval]
+;  ; update arc cost with cval
+;  ;(get (swap! graph (assoc-in graph [x y] cval)) y)
+;  (swap! graph #(assoc-in % [x y] cval))
+;  (get-cost_graph x y)
+;  ; if
+;  )
